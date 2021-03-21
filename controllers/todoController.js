@@ -6,7 +6,7 @@ class TodoController {
     Todo.create({
       task,
       desc,
-      status,
+      status: status || false,
       dueDate,
       UserId: req.currentUserId
     })
@@ -20,7 +20,8 @@ class TodoController {
     Todo.findAll({
       where: {
         UserId: req.currentUserId
-      }
+      },
+      order: [['updatedAt', 'DESC']]
     })
       .then((todo) => {
         res.status(200).json(todo)
@@ -46,6 +47,8 @@ class TodoController {
   static update(req, res, next) {
     let id = req.params.id
     let { task, desc, status, dueDate } = req.body
+    console.log(req.body);
+    // console.log(task, desc, status, dueDate, 'coooooooooook');
     Todo.update({
       task,
       desc,
